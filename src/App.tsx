@@ -1,5 +1,12 @@
+import { AppContainer } from "./components/AppContainer";
+import { AppHeader } from "./components/AppHeader";
+
 function App() {
-  return <div>Fischkapp</div>;
+  return (
+    <AppContainer>
+      <AppHeader onAddCard={() => {}} cardsAmount={0} />
+    </AppContainer>
+  );
 }
 
 export default App;
