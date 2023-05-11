@@ -1,0 +1,7 @@
+.container {
+    width: 375px;
+    height: 755px;
+    margin: 5% auto;
+    overflow-y: scroll;
+    background: #FFFFFF;
+}
