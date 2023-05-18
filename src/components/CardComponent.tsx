@@ -1,18 +1,42 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { CardDefault } from './CardDefault'
 import { CardEdit } from './CardEdit'
-import css from './CardComponent.module.css'
 
 interface TProps {
-  front: string
-  back: string
+  cardText: string
 }
 
-export const CardComponent: React.FC<TProps> = ({ front }) => {
-  return (
-    <div className={css.card}>
-      <CardDefault text={front} />
-      <CardEdit text={front} />
-    </div>
+export const CardComponent: React.FC<TProps> = ({ cardText }) => {
+  const [text, setText] = useState(cardText)
+  const [isEditing, setIsEditing] = useState(false)
+  const inputRef = useRef('')
+
+  const handleSaveBtn = () => {
+    if (inputRef.current) {
+      setText(inputRef.current)
+    }
+    setIsEditing(false)
+  }
+  
+  return !isEditing ? (
+    <CardDefault
+      text={text}
+      onEditBtnClick={() => {
+        setIsEditing(true)
+      }}
+    />
+  ) : (
+    <CardEdit
+      text={text}
+      onCancelBtnClick={() => {
+        setIsEditing(false)
+      }}
+      onSaveBtnClick={handleSaveBtn}
+      onInputChange={(e) => {
+        if (e.target) {
+          inputRef.current = e.target.value
+        }
+      }}
+    />
   )
 }

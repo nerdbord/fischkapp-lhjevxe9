@@ -1,13 +1,15 @@
 import React from 'react'
-
 import { Pencil } from './icons/Pencil'
-type TProps = { text: string }
 import css from './CardComponent.module.css'
 
-export const CardDefault: React.FC<TProps> = ({ text }) => {
+type TProps = { text: string; onEditBtnClick(): void }
+
+export const CardDefault: React.FC<TProps> = ({ text, onEditBtnClick }) => {
   return (
     <div className={css.defaultView}>
-      <button className={css.editButton}>{<Pencil />}</button>
+      <button className={css.editButton} onClick={onEditBtnClick}>
+        {<Pencil />}
+      </button>
       <h2>{text}</h2>
     </div>
   )
