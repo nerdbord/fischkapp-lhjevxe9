@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pencil } from './icons/Pencil'
-import css from './CardComponent.module.css'
+import css from './CardDefault.module.css'
 
 type TProps = { text: string; onEditBtnClick(): void }
 

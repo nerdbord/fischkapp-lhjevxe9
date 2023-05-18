@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { Delete } from './icons/Delete'
-import css from './CardComponent.module.css'
+import css from './CardEdit.module.css'
+import defaultView from './CardDefault.module.css'
 
 type TProps = {
   text: string
@@ -26,7 +27,7 @@ export const CardEdit: React.FC<TProps> = ({
     }
   }
   return (
-    <div className={css.editView}>
+    <div className={`${defaultView.defaultView} ${css.editView}`}>
       <button className={css.deleteButton}>{<Delete />}</button>
       <textarea
         ref={textareaRef}
