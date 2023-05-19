@@ -1,17 +1,19 @@
 import React, { useRef, useEffect } from 'react'
 import { Delete } from './icons/Delete'
+import { CardButton } from './CardButton'
 import css from './CardEdit.module.css'
-import defaultView from './CardDefault.module.css'
 
-type TProps = {
+interface CardEditProps {
   text: string
+  smallText?: string
   onCancelBtnClick(): void
   onSaveBtnClick(): void
   onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>): void
 }
 
-export const CardEdit: React.FC<TProps> = ({
+export const CardEdit: React.FC<CardEditProps> = ({
   text,
+  smallText,
   onSaveBtnClick,
   onCancelBtnClick,
   onInputChange,
@@ -27,23 +29,19 @@ export const CardEdit: React.FC<TProps> = ({
     }
   }
   return (
-    <div className={`${defaultView.defaultView} ${css.editView}`}>
+    <div className={css.editView}>
       <button className={css.deleteButton}>{<Delete />}</button>
+      <p className={css.smallText}>{smallText}</p>
       <textarea
         ref={textareaRef}
         cols={20}
         defaultValue={text}
         onChange={onInputChange}
         onInput={resizeTextArea}
-        rows={1}
       />
-      <div className={css.editButtons}>
-        <button className={css.cancelButton} onClick={onCancelBtnClick}>
-          Cancel
-        </button>
-        <button className={css.saveButton} onClick={onSaveBtnClick}>
-          Save
-        </button>
+      <div className={css.buttonsPanel}>
+        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
+        <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
       </div>
     </div>
   )
