@@ -1,18 +1,15 @@
-import React from 'react'
-import { CardDefault } from './CardDefault'
-import { CardEdit } from './CardEdit'
-import css from './CardComponent.module.css'
+import { CardOneSite } from './CardOneSite'
 
-interface TProps {
+interface CardComponentProps {
   front: string
   back: string
 }
-
-export const CardComponent: React.FC<TProps> = ({ front }) => {
+export const CardComponent = ({ front, back }: CardComponentProps) => {
   return (
-    <div className={css.card}>
-      <CardDefault text={front} />
-      <CardEdit text={front} />
+    <div style={{ width: '100%' }}>
+      {/* delete this div after implement "flip" effect} */}
+      <CardOneSite cardText={front} />
+      <CardOneSite cardText={back} />
     </div>
   )
 }

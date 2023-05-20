@@ -1,17 +1,49 @@
-import React from 'react'
-import css from './CardComponent.module.css'
+import React, { useRef, useEffect } from 'react'
+
 import { Delete } from './icons/Delete'
+import { CardButton } from './CardButton'
+import css from './CardEdit.module.css'
 
-type TProps = { text: string }
+interface CardEditProps {
+  text: string
+  smallText?: string
+  onCancelBtnClick(): void
+  onSaveBtnClick(): void
+  onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>): void
+}
 
-export const CardEdit: React.FC<TProps> = ({ text }) => {
+export const CardEdit = ({
+  text,
+  smallText,
+  onSaveBtnClick,
+  onCancelBtnClick,
+  onInputChange,
+}: CardEditProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    resizeTextArea()
+  })
+  const resizeTextArea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }
   return (
     <div className={css.editView}>
       <button className={css.deleteButton}>{<Delete />}</button>
-      <textarea wrap="hard" cols={20} defaultValue={text} />
-      <div className={css.editButtons}>
-        <button className={css.cancelButton}>Cancel</button>
-        <button className={css.saveButton}>Save</button>
+      <p className={css.smallText}>{smallText}</p>
+      <textarea
+        ref={textareaRef}
+        cols={20}
+        defaultValue={text}
+        onChange={onInputChange}
+        onInput={resizeTextArea}
+      />
+      <div className={css.buttonsPanel}>
+        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
+
+        <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
       </div>
     </div>
   )

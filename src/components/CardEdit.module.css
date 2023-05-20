@@ -1,0 +1,42 @@
+.editView {
+  composes: defaultView from './CardDefault.module.css';
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 16px;
+  padding-top: 40px;
+  overflow: hidden;
+}
+.editView textarea {
+  width: 100%;
+  height: auto;
+  min-height: 50px;
+  resize: none;
+  overflow: hidden;
+  padding: 15px;
+  padding-bottom: 8px;
+  border: 0;
+  border-bottom: 1px solid #98a3cf;
+  margin-bottom: 14px;
+  vertical-align: middle;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+}
+.editView textarea:focus {
+  outline: none;
+}
+.deleteButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: inherit;
+  border: 0;
+}
+.buttonsPanel {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
