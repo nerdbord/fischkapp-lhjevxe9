@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+
 import { Delete } from './icons/Delete'
 import { CardButton } from './CardButton'
 import css from './CardEdit.module.css'
@@ -11,13 +12,13 @@ interface CardEditProps {
   onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>): void
 }
 
-export const CardEdit: React.FC<CardEditProps> = ({
+export const CardEdit = ({
   text,
   smallText,
   onSaveBtnClick,
   onCancelBtnClick,
   onInputChange,
-}) => {
+}: CardEditProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
     resizeTextArea()
@@ -40,7 +41,9 @@ export const CardEdit: React.FC<CardEditProps> = ({
         onInput={resizeTextArea}
       />
       <div className={css.buttonsPanel}>
-        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
+        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick}>
+          <li></li>
+        </CardButton>
         <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
       </div>
     </div>

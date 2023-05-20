@@ -6,7 +6,7 @@ interface CardOneSiteProps {
   cardText: string
 }
 
-export const CardOneSite: React.FC<CardOneSiteProps> = ({ cardText }) => {
+export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
   const [text, setText] = useState(cardText)
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef('')

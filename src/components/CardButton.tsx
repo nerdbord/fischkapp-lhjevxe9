@@ -1,19 +1,16 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import css from './CardButton.module.css'
+
 interface CardButtonProps {
   text: string
   position: 'left' | 'right'
   onClick(): void
+  children?: ReactElement
 }
 
-export const CardButton: React.FC<CardButtonProps> = ({
-  text,
-  position,
-  onClick,
-}) => {
-  const combinedClassName = `${css.basic} ${css[position]}`
+export const CardButton = ({ text, position, onClick }: CardButtonProps) => {
   return (
-    <button className={combinedClassName} onClick={onClick}>
+    <button className={`${css.basic} ${css[position]}`} onClick={onClick}>
       {text}
     </button>
   )
