@@ -41,9 +41,8 @@ export const CardEdit = ({
         onInput={resizeTextArea}
       />
       <div className={css.buttonsPanel}>
-        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick}>
-          <li></li>
-        </CardButton>
+        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
+
         <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
       </div>
     </div>

@@ -1,11 +1,9 @@
-import { ReactElement } from 'react'
 import css from './CardButton.module.css'
 
 interface CardButtonProps {
   text: string
   position: 'left' | 'right'
   onClick(): void
-  children?: ReactElement
 }
 
 export const CardButton = ({ text, position, onClick }: CardButtonProps) => {
