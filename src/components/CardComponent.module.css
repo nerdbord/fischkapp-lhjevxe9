@@ -1,26 +1,11 @@
-.backfaceVisible {
-  visibility: visible;
-}
-.backfaceHidden {
+.hidden {
   visibility: hidden;
 }
 .flipped {
   transform: rotateY(180deg);
 }
-.hidden {
-  opacity: 0;
-}
-.fadeIn h2 {
-  opacity: 1;
-}
-
+.fadeOut button,
 .fadeOut h2 {
-  opacity: 0;
-}
-.fadeIn button {
-  opacity: 1;
-}
-.fadeOut button {
   opacity: 0;
 }
 
