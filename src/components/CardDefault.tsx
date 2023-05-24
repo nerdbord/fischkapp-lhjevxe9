@@ -3,7 +3,7 @@ import css from './CardDefault.module.css'
 
 interface CardDefaultProps {
   text: string
-  onEditBtnClick(): void
+  onEditBtnClick(e: React.MouseEvent<HTMLButtonElement>): void
 }
 
 export const CardDefault = ({ text, onEditBtnClick }: CardDefaultProps) => {

@@ -6,15 +6,13 @@ import css from './CardEdit.module.css'
 
 interface CardEditProps {
   text: string
-  smallText?: string
-  onCancelBtnClick(): void
-  onSaveBtnClick(): void
+  onCancelBtnClick(e: React.MouseEvent<HTMLButtonElement>): void
+  onSaveBtnClick(e: React.MouseEvent<HTMLButtonElement>): void
   onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>): void
 }
 
 export const CardEdit = ({
   text,
-  smallText,
   onSaveBtnClick,
   onCancelBtnClick,
   onInputChange,
@@ -30,9 +28,8 @@ export const CardEdit = ({
     }
   }
   return (
-    <div className={css.editView}>
+    <div className={css.editView} onClick={(e) => e.stopPropagation()}>
       <button className={css.deleteButton}>{<Delete />}</button>
-      <p className={css.smallText}>{smallText}</p>
       <textarea
         ref={textareaRef}
         cols={20}
@@ -42,7 +39,6 @@ export const CardEdit = ({
       />
       <div className={css.buttonsPanel}>
         <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
-
         <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
       </div>
     </div>
