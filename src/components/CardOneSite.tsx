@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { CardDefault } from './CardDefault'
 import { CardEdit } from './CardEdit'
+import { CardButton } from './CardButton'
 
 interface CardOneSiteProps {
   cardText: string
@@ -21,31 +22,29 @@ export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
     }
     setIsEditing(false)
   }
-  const handleCancelBtn = () => {
-    setIsEditing(false)
-  }
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target) {
-      inputRef.current = e.target.value
-    }
-  }
   const handlePencilBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEditing(true)
     e.stopPropagation()
   }
-
-  return (
-    <>
-      {!isEditing ? (
-        <CardDefault text={text} onEditBtnClick={handlePencilBtn} />
-      ) : (
-        <CardEdit
-          text={text}
-          onCancelBtnClick={handleCancelBtn}
-          onSaveBtnClick={handleSaveBtn}
-          onInputChange={handleInputChange}
-        />
-      )}
-    </>
+  return !isEditing ? (
+    <CardDefault text={text} onEditBtnClick={handlePencilBtn} />
+  ) : (
+    <CardEdit
+      text={text}
+      onInputChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target) {
+          inputRef.current = e.target.value
+        }
+      }}
+    >
+      <CardButton
+        text="Cancel"
+        position="left"
+        onClick={() => {
+          setIsEditing(false)
+        }}
+      />
+      <CardButton text="Save" position="right" onClick={handleSaveBtn} />
+    </CardEdit>
   )
 }

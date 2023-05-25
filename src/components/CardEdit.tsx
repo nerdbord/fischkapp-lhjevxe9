@@ -1,21 +1,21 @@
 import React, { useRef, useEffect } from 'react'
-
 import { Delete } from './icons/Delete'
-import { CardButton } from './CardButton'
 import css from './CardEdit.module.css'
 
 interface CardEditProps {
   text: string
-  onCancelBtnClick(e: React.MouseEvent<HTMLButtonElement>): void
-  onSaveBtnClick(e: React.MouseEvent<HTMLButtonElement>): void
+  smallText?: string
   onInputChange(e: React.ChangeEvent<HTMLTextAreaElement>): void
+  hideDeleteBtn?: boolean
+  children: React.ReactNode
 }
 
 export const CardEdit = ({
   text,
-  onSaveBtnClick,
-  onCancelBtnClick,
+  smallText,
   onInputChange,
+  hideDeleteBtn = false,
+  children,
 }: CardEditProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -28,8 +28,16 @@ export const CardEdit = ({
     }
   }
   return (
-    <div className={css.editView} onClick={(e) => e.stopPropagation()}>
-      <button className={css.deleteButton}>{<Delete />}</button>
+    <div
+      className={css.editView}
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
+      {!hideDeleteBtn ? (
+        <button className={css.deleteButton}>{<Delete />}</button>
+      ) : null}
+      {smallText ? <p className={css.smallText}>{smallText}</p> : null}
       <textarea
         ref={textareaRef}
         cols={20}
@@ -37,10 +45,7 @@ export const CardEdit = ({
         onChange={onInputChange}
         onInput={resizeTextArea}
       />
-      <div className={css.buttonsPanel}>
-        <CardButton text="Cancel" position="left" onClick={onCancelBtnClick} />
-        <CardButton text="Save" position="right" onClick={onSaveBtnClick} />
-      </div>
+      <div className={css.buttonsPanel}>{children}</div>
     </div>
   )
 }
