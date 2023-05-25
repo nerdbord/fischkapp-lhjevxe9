@@ -1,0 +1,35 @@
+.hidden {
+  visibility: hidden;
+}
+.flipped {
+  transform: rotateY(180deg);
+}
+.fadeOut button,
+.fadeOut h2 {
+  opacity: 0;
+}
+
+.card {
+  position: relative;
+  transition: transform 1.2s;
+}
+.card h2 {
+  transition: opacity 0.5s linear;
+}
+.card button {
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-delay: 0.1s;
+  cursor: pointer;
+}
+.front,
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
