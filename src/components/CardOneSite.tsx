@@ -26,17 +26,15 @@ export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
     setIsEditing(true)
     e.stopPropagation()
   }
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target) {
+      inputRef.current = e.target.value
+    }
+  }
   return !isEditing ? (
     <CardDefault text={text} onEditBtnClick={handlePencilBtn} />
   ) : (
-    <CardEdit
-      text={text}
-      onInputChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target) {
-          inputRef.current = e.target.value
-        }
-      }}
-    >
+    <CardEdit text={text} onInputChange={handleInputChange}>
       <CardButton
         text="Cancel"
         position="left"

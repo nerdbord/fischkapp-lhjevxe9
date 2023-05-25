@@ -23,6 +23,7 @@ export const CardEdit = ({
   })
   const resizeTextArea = () => {
     if (textareaRef.current) {
+      textareaRef.current.defaultValue = '2020'
       textareaRef.current.style.height = 'auto'
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
