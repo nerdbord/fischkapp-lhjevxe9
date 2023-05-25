@@ -4,15 +4,9 @@ import { CardEdit } from './CardEdit'
 
 interface CardOneSiteProps {
   cardText: string
-  onClick?: React.MouseEventHandler<HTMLDivElement>
-  cssClas?: string
 }
 
-export const CardOneSite = ({
-  cardText,
-  cssClas,
-  onClick,
-}: CardOneSiteProps) => {
+export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
   const [text, setText] = useState(cardText)
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef('')
@@ -21,17 +15,14 @@ export const CardOneSite = ({
     setText(cardText)
   }, [cardText])
 
-  
-  const handleSaveBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSaveBtn = () => {
     if (inputRef.current) {
       setText(inputRef.current)
     }
     setIsEditing(false)
-    e.stopPropagation()
   }
-  const handleCancelBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCancelBtn = () => {
     setIsEditing(false)
-    e.stopPropagation()
   }
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target) {
@@ -44,7 +35,7 @@ export const CardOneSite = ({
   }
 
   return (
-    <div onClick={onClick} className={cssClas}>
+    <>
       {!isEditing ? (
         <CardDefault text={text} onEditBtnClick={handlePencilBtn} />
       ) : (
@@ -55,6 +46,6 @@ export const CardOneSite = ({
           onInputChange={handleInputChange}
         />
       )}
-    </div>
+    </>
   )
 }
