@@ -1,8 +1,6 @@
 .defaultView {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
   text-align: center;
   width: 90%;
@@ -25,9 +23,12 @@
   border: 0;
 }
 .defaultView h2 {
+  width: 100%;
+  margin: auto;
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 21px;
+  z-index: 10;
 }

@@ -13,27 +13,29 @@ export const CardComponent = ({ front, back }: CardComponentProps) => {
 
   const handleFlip = () => {
     setIsFront((isFront) => !isFront)
+
+    const refFrontCurrent = refFront.current
+    const refBackCurrent = refBack.current
+
+    const classListFront = refFrontCurrent?.classList
+    const classListBack = refBackCurrent?.classList
+
+    const fadeInClass = css.fadeOut
+    const hiddenClass = css.hidden
+
     if (isFront) {
-      if (refBack.current && refFront.current) {
-        refBack.current.classList.add(css.fadeOut)
-      }
+      classListBack?.add(fadeInClass)
       setTimeout(() => {
-        if (refBack.current && refFront.current) {
-          refBack.current.classList.add(css.hidden)
-          refFront.current.classList.remove(css.hidden)
-          refFront.current.classList.remove(css.fadeOut)
-        }
-      }, 600) //~~half time of css.card transform transition
+        classListBack?.add(hiddenClass)
+        classListFront?.remove(hiddenClass)
+        classListFront?.remove(fadeInClass)
+      }, 600)
     } else {
-      if (refFront.current) {
-        refFront.current.classList.add(css.fadeOut)
-      }
+      classListFront?.add(fadeInClass)
       setTimeout(() => {
-        if (refBack.current && refFront.current) {
-          refFront.current.classList.add(css.hidden)
-          refBack.current.classList.remove(css.hidden)
-          refBack.current.classList.remove(css.fadeOut)
-        }
+        classListFront?.add(hiddenClass)
+        classListBack?.remove(hiddenClass)
+        classListBack?.remove(fadeInClass)
       }, 600)
     }
   }
