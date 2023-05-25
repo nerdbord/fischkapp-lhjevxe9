@@ -20,7 +20,7 @@ export const CardComponent = ({ front, back }: CardComponentProps) => {
       setTimeout(() => {
         if (refBack.current && refFront.current) {
           refBack.current.classList.add(css.hidden)
-          refFront.current.classList.remove(css.hiddenn)
+          refFront.current.classList.remove(css.hidden)
           refFront.current.classList.remove(css.fadeOut)
         }
       }, 600) //~~half time of css.card transform transition
