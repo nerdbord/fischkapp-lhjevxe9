@@ -1,0 +1,36 @@
+.newCard.hidden {
+  display: none;
+}
+.newCard {
+  composes: editView from './CardEdit.module.css';
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 16px;
+  overflow: hidden;
+  cursor: default;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: inherit;
+  border: 0;
+}
+.buttonsPanel {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.smallText {
+  color: #98a3cf;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 14px;
+  max-width: 90%;
+}
