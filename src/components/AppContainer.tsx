@@ -1,7 +1,10 @@
-import { PropsWithChildren } from "react";
+import { ReactNode } from 'react'
 
-import * as styles from "./AppContainer.module.css";
+import css from './AppContainer.module.css'
 
-export const AppContainer = ({ children }): PropsWithChildren<object> => (
-  <div className={styles.container}>{children}</div>
-);
+interface AppContainerProps {
+  children: ReactNode
+}
+export const AppContainer = ({ children }: AppContainerProps) => (
+  <div className={css.container}>{children}</div>
+)

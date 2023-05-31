@@ -5,9 +5,12 @@ import { CardButton } from './CardButton'
 
 import css from './NewCard.module.css'
 
-interface NewCardProps {}
+interface NewCardProps {
+  handleCancelBtn(): void
+  handleSaveBtn(frontText: string, backText: string): void
+}
 
-export const NewCard = ({}: NewCardProps) => {
+export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
   const [frontText, setFrontText] = useState('')
   const [backText, setBackText] = useState('')
   const [isFirstSite, setIsFirstSite] = useState(true)
@@ -16,18 +19,14 @@ export const NewCard = ({}: NewCardProps) => {
     e.target.style.height = 'auto'
     e.target.style.height = `${e.target.scrollHeight}px`
   }
-  const handleCancelBtn = () => {
-    //close NewCart component and show card list
-  }
   const handleNextBtn = () => {
     setIsFirstSite(false)
   }
   const handleBackBtn = () => {
     setIsFirstSite(true)
   }
-
-  const handleSaveBtn = () => {
-    console.log(`you create new card front: ${frontText}, back: ${backText}`)
+  const saveNewCard = () => {
+    handleSaveBtn(frontText, backText)
   }
 
   return (
@@ -48,7 +47,9 @@ export const NewCard = ({}: NewCardProps) => {
       </div>
 
       <div className={`${css.newCard} ${isFirstSite ? css.hidden : ''}`}>
-        <button className={css.deleteButton}>{<Delete />}</button>
+        <button className={css.deleteButton} onClick={handleCancelBtn}>
+          {<Delete />}
+        </button>
         <p className={css.smallText}>{frontText}</p>
         <textarea
           cols={20}
@@ -60,7 +61,7 @@ export const NewCard = ({}: NewCardProps) => {
         />
         <div className={css.buttonsPanel}>
           <CardButton text="Back" position="left" onClick={handleBackBtn} />
-          <CardButton text="Save" position="right" onClick={handleSaveBtn} />
+          <CardButton text="Save" position="right" onClick={saveNewCard} />
         </div>
       </div>
     </>
