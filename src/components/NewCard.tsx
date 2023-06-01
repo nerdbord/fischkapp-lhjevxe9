@@ -48,7 +48,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
 
       <div className={`${css.newCard} ${isFirstSite ? css.hidden : ''}`}>
         <button className={css.deleteButton} onClick={handleCancelBtn}>
-          {<Delete />}
+          <Delete />
         </button>
         <p className={css.smallText}>{frontText}</p>
         <textarea

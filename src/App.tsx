@@ -4,40 +4,41 @@ import { AppHeader } from './components/AppHeader'
 import { CardComponent } from './components/CardComponent'
 import { NewCard } from './components/NewCard'
 
+const mockList = [
+  { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },
+  { front: 'Bigos', back: 'Dobry jest', id: '1a3' },
+  { front: 'Serniczka', back: 'Zawsze zjem', id: '12' },
+]
+
 function App() {
-  const [cardsData, setCardsList] = useState([
-    { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },
-    { front: 'Bigos', back: 'Dobry jest', id: '1a3' },
-    { front: 'Serniczka', back: 'Zawsze zjem', id: '12' },
-  ])
-  const [isListView, setIsListView] = useState(true)
+  const [isAddingNewCard, setIsAddingNewCard] = useState(false)
+  const [cardsData, setCardsList] = useState(mockList)
 
   const saveNewCard = (frontText: string, backText: string) => {
-    setCardsList((prevState) => [
-      ...prevState,
+    setCardsList([
+      ...cardsData,
       { front: frontText, back: backText, id: 'RandomID' },
     ])
-    setIsListView(true)
+    setIsAddingNewCard(false)
   }
 
   return (
     <AppContainer>
       <AppHeader
         onAddCard={() => {
-          setIsListView(false)
+          setIsAddingNewCard(true)
         }}
-        cardsAmount={0}
+        cardsAmount={cardsData.length}
       />
-      {!isListView ? (
+      {isAddingNewCard && (
         <NewCard
-          handleCancelBtn={() => setIsListView(true)}
+          handleCancelBtn={() => setIsAddingNewCard(false)}
           handleSaveBtn={saveNewCard}
         />
-      ) : (
-        <CardComponent front="Lorem ipsum" back="Jhon Doe" />
       )}
+      <CardComponent front="Lorem ipsum" back="Jhon Doe" />{' '}
+      {/* tfw this component imitate rendered Card List */}
     </AppContainer>
   )
 }
-
 export default App
