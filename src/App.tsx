@@ -11,8 +11,8 @@ const mockList = [
 ]
 
 function App() {
-  const [isAddingNewCard, setIsAddingNewCard] = useState(false)
   const [cardsData, setCardsList] = useState(mockList)
+  const [isAddingNewCard, setIsAddingNewCard] = useState(false)
 
   const saveNewCard = (frontText: string, backText: string) => {
     setCardsList([
