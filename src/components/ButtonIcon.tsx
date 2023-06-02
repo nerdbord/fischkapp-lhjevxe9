@@ -1,4 +1,4 @@
-import * as styles from "./ButtonIcon.module.css";
+import styles from "./ButtonIcon.module.css";
 
 interface ButtonIconProps {
   icon: React.ReactNode;

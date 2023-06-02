@@ -1,7 +1,7 @@
 import { ButtonIcon } from "./ButtonIcon";
 import { Add } from "./icons/Add";
 
-import * as styles from "./AppHeader.module.css";
+import styles from "./AppHeader.module.css";
 
 interface AppHeaderProps {
   cardsAmount: number;
