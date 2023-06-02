@@ -4,7 +4,6 @@ interface CardButtonProps {
   text: string
   position: 'left' | 'right'
   onClick(e?: React.MouseEvent<HTMLButtonElement>): void
-  updateParentState?(): void
 }
 
 export const CardButton = ({ text, position, onClick }: CardButtonProps) => {
