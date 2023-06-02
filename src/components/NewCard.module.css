@@ -2,14 +2,40 @@
   display: none;
 }
 .newCard {
-  composes: editView from './CardEdit.module.css';
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  width: 90%;
+  min-height: 147px;
+  margin: 10px auto;
   padding: 16px;
-  overflow: hidden;
+  background: #ffffff;
+  box-shadow: rgba(152, 163, 207, 0.3) 0px 20px 34px 0px;
+  border-radius: 16px;
+  word-wrap: break-word;
   cursor: default;
+  overflow: hidden;
+}
+.newCard textarea {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px;
+  margin-bottom: 14px;
+  vertical-align: middle;
+  border: 0;
+  border-bottom: 1px solid #98a3cf;
+  resize: none;
+  overflow: hidden;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+}
+.newCard textarea:focus {
+  outline: none;
 }
 
 .deleteButton {
