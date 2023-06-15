@@ -32,6 +32,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
   return (
     <>
       <div className={`${css.newCard} ${!isFirstSite ? css.hidden : ''}`}>
+        <p className={css.smallText}></p>
         <textarea
           cols={20}
           value={frontText}

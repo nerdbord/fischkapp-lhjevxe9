@@ -1,5 +1,5 @@
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 .flipped {
   transform: rotateY(180deg);
@@ -13,6 +13,7 @@
   position: relative;
   transition: transform 1.2s;
 }
+
 .card h2 {
   transition: opacity 0.5s linear;
 }
@@ -24,9 +25,6 @@
 }
 .front,
 .back {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
 }
 
