@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { AppContainer } from './components/AppContainer'
 import { AppHeader } from './components/AppHeader'
 import { NewCard } from './components/NewCard'
-import CardList from './components/CardList'
+import { CardList } from './components/CardList'
 
 const mockList = [
   { front: 'Jon Doe', back: 'Lorem ipsum', id: 1 },
@@ -36,7 +36,7 @@ function App() {
           handleSaveBtn={saveNewCard}
         />
       )}
-      <CardList cards={cardsData} />
+      <CardList cardsData={cardsData} />
     </AppContainer>
   )
 }
