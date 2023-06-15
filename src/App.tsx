@@ -3,8 +3,9 @@ import { AppContainer } from './components/AppContainer'
 import { AppHeader } from './components/AppHeader'
 import { CardComponent } from './components/CardComponent'
 import { NewCard } from './components/NewCard'
+import { CardList } from './components/CardList'
 
-const mockList = [
+export const mockList = [
   { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },
   { front: 'Bigos', back: 'Dobry jest', id: '1a3' },
   { front: 'Serniczka', back: 'Zawsze zjem', id: '12' },
@@ -37,7 +38,7 @@ function App() {
         />
       )}
       <CardComponent front="Lorem ipsum" back="Jhon Doe" />{' '}
-      {/* tfw this component imitate rendered Card List */}
+      <CardList cardsData={cardsData} />
     </AppContainer>
   )
 }

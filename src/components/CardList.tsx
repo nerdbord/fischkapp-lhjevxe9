@@ -1,22 +1,20 @@
 import styles from './CardList.module.css';
-import React from 'react';
+// import React from 'react';
 import { CardComponent} from "./CardComponent";
 
 interface Cards {
-    cards: Card[],
+    cardsData: {
+        front: string,
+        back: string,
+        id: string
+    }[],
 }
 
-interface Card {
-    id: number,
-    front: string,
-    back: string,
-}
-
-export default function CardList({cards}: Cards) {
+export function CardList({cardsData}: Cards) {
 
     return (
         <ul className={styles['card-list']}>
-            {cards.map((card) => (
+            {cardsData.map((card) => (
                 <li key={card.id}>
                     <CardComponent front={card.front} back={card.back} />
                 </li>
