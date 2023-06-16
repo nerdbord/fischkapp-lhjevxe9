@@ -4,7 +4,6 @@ import { AppHeader } from './components/AppHeader'
 import { NewCard } from './components/NewCard'
 import { CardList } from './components/CardList'
 
-// import { fetchCardsData } from './utils/get'
 import { postFlashCard } from './utils/post'
 
 import { FlashCardI } from './types/types'

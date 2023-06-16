@@ -33,9 +33,7 @@ export const postFlashCard = async (data: {
         throw new Error('Wystąpił błąd sieciowy.')
       }
     }
-
     const responseData = await response.json()
-    console.log(responseData)
     return responseData.flashcard
   } catch (error) {
     console.error('Wystąpił błąd:', error)
