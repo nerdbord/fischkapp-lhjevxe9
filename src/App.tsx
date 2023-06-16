@@ -4,20 +4,26 @@ import { AppHeader } from './components/AppHeader'
 import { NewCard } from './components/NewCard'
 import { CardList } from './components/CardList'
 
-const mockList = [
-  { front: 'Jon Doe', back: 'Lorem ipsum', id: 1 },
-  { front: 'Bigos', back: 'Dobry jest', id: 2 },
-  { front: 'Serniczka', back: 'Zawsze zjem', id: 3 },
+// import { fetchCardsData } from './utils/get'
+import { postFlashCard } from './utils/post'
+
+import { FlashCardI } from './types/types'
+
+const mockList: FlashCardI[] = [
+  { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },
+  { front: 'Bigos', back: 'Dobry jest', id: '2' },
+  { front: 'Serniczka', back: 'Zawsze zjem', id: ' 3' },
 ]
 
 function App() {
   const [cardsData, setCardsList] = useState(mockList)
   const [isAddingNewCard, setIsAddingNewCard] = useState(false)
 
-  const saveNewCard = (frontText: string, backText: string) => {
+  const saveNewCard = async (front: string, back: string) => {
+    const newCardData = await postFlashCard({ front, back })
     setCardsList([
       ...cardsData,
-      { front: frontText, back: backText, id: Math.random() },
+      { front: newCardData.front, back: newCardData.back, id: newCardData.id },
     ])
     setIsAddingNewCard(false)
   }
