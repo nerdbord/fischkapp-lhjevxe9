@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Delete } from './icons/Delete'
 import { CardButton } from './CardButton'
+import { Loader } from './Loader'
 
 import css from './NewCard.module.css'
 
@@ -14,6 +15,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
   const [frontText, setFrontText] = useState('')
   const [backText, setBackText] = useState('')
   const [isFirstSite, setIsFirstSite] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const resizeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = 'auto'
@@ -26,6 +28,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
     setIsFirstSite(true)
   }
   const saveNewCard = () => {
+    setIsLoading(true)
     handleSaveBtn(frontText, backText)
   }
 
@@ -48,22 +51,28 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
       </div>
 
       <div className={`${css.newCard} ${isFirstSite ? css.hidden : ''}`}>
-        <button className={css.deleteButton} onClick={handleCancelBtn}>
-          <Delete />
-        </button>
-        <p className={css.smallText}>{frontText}</p>
-        <textarea
-          cols={20}
-          value={backText}
-          onInput={resizeTextArea}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            setBackText(e.target.value)
-          }}
-        />
-        <div className={css.buttonsPanel}>
-          <CardButton text="Back" position="left" onClick={handleBackBtn} />
-          <CardButton text="Save" position="right" onClick={saveNewCard} />
-        </div>
+        {!isLoading ? (
+          <>
+            <button className={css.deleteButton} onClick={handleCancelBtn}>
+              <Delete />
+            </button>
+            <p className={css.smallText}>{frontText}</p>
+            <textarea
+              cols={20}
+              value={backText}
+              onInput={resizeTextArea}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                setBackText(e.target.value)
+              }}
+            />
+            <div className={css.buttonsPanel}>
+              <CardButton text="Back" position="left" onClick={handleBackBtn} />
+              <CardButton text="Save" position="right" onClick={saveNewCard} />
+            </div>
+          </>
+        ) : (
+          <Loader />
+        )}
       </div>
     </>
   )
