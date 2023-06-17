@@ -6,7 +6,11 @@ export const Loader = () => (
     width="80"
     color="#98A3CF"
     ariaLabel="circles-loading"
-    wrapperStyle={{ margin: 'auto' }}
+    wrapperStyle={{
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '15px auto',
+    }}
     wrapperClass=""
     visible={true}
   />
