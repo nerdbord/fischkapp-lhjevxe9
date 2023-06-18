@@ -6,9 +6,9 @@ import { CardList } from './components/CardList'
 import { Loader } from './components/Loader'
 
 import { postFlashCard } from './utils/post'
+import { fetchCardsData } from './utils/get'
 
 import { FlashCardI } from './types/types'
-import { fetchCardsData } from './utils/get'
 
 // const mockList: FlashCardI[] = [
 //   { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },

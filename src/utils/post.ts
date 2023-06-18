@@ -14,7 +14,6 @@ export const postFlashCard = async (data: {
       },
       body: JSON.stringify(data),
     })
-
     if (!response.ok) {
       const response = await fetch(
         'https://training.nerdbord.io/api/v1/fischkapp/flashcards',

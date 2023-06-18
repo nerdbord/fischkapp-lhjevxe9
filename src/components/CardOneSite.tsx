@@ -1,25 +1,23 @@
 import { useState, useRef, useEffect } from 'react'
-import { Delete } from './icons/Delete'
+
 import { CardButton } from './CardButton'
+
+import { Delete } from './icons/Delete'
 import { Pencil } from './icons/Pencil'
+
 import css from './CardOneSite.module.css'
+
 interface CardOneSiteProps {
   cardText: string
   saveEdit(value: string): void
 }
 
 export const CardOneSite = ({ cardText, saveEdit }: CardOneSiteProps) => {
-  // const [text, setText] = useState(cardText)
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef('')
 
-  // useEffect(() => {
-  //   setText(cardText)
-  // }, [cardText])
-
   const handleSaveBtn = () => {
     if (inputRef.current) {
-      // setText(inputRef.current)
       saveEdit(inputRef.current)
     }
     setIsEditing(false)
@@ -46,6 +44,7 @@ export const CardOneSite = ({ cardText, saveEdit }: CardOneSiteProps) => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
   }
+
   return (
     <>
       {!isEditing ? (
