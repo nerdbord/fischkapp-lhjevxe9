@@ -13,7 +13,7 @@ export function CardList({ cardsData }: Cards) {
     <ul className={styles['card-list']}>
       {clonedArray.reverse().map((card) => (
         <li key={card._id}>
-          <CardComponent front={card.front} back={card.back} />
+          <CardComponent front={card.front} back={card.back} id={card._id} />
         </li>
       ))}
     </ul>

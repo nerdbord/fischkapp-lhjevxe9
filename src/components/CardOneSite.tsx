@@ -1,23 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
-import { CardDefault } from './CardDefault'
-import { CardEdit } from './CardEdit'
+
+import { CardButton } from './CardButton'
+
+import { Delete } from './icons/Delete'
+import { Pencil } from './icons/Pencil'
+
+import css from './CardOneSite.module.css'
 
 interface CardOneSiteProps {
   cardText: string
+  saveEdit(value: string): void
 }
 
-export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
-  const [text, setText] = useState(cardText)
+export const CardOneSite = ({ cardText, saveEdit }: CardOneSiteProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef('')
 
-  useEffect(() => {
-    setText(cardText)
-  }, [cardText])
-
   const handleSaveBtn = () => {
     if (inputRef.current) {
-      setText(inputRef.current)
+      saveEdit(inputRef.current)
     }
     setIsEditing(false)
   }
@@ -33,18 +34,50 @@ export const CardOneSite = ({ cardText }: CardOneSiteProps) => {
     setIsEditing(true)
     e.stopPropagation()
   }
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    resizeTextArea()
+  })
+  const resizeTextArea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }
 
   return (
     <>
       {!isEditing ? (
-        <CardDefault text={text} onEditBtnClick={handlePencilBtn} />
+        <>
+          <div className={css.defaultView}>
+            <button className={css.editButton} onClick={handlePencilBtn}>
+              {<Pencil />}
+            </button>
+            <h2>{cardText}</h2>
+          </div>
+        </>
       ) : (
-        <CardEdit
-          text={text}
-          onCancelBtnClick={handleCancelBtn}
-          onSaveBtnClick={handleSaveBtn}
-          onInputChange={handleInputChange}
-        />
+        <div
+          className={`${css.defaultView} ${css.editView}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className={css.deleteButton}>{<Delete />}</button>
+          <textarea
+            ref={textareaRef}
+            cols={20}
+            defaultValue={cardText}
+            onChange={handleInputChange}
+            onInput={resizeTextArea}
+          />
+          <div className={css.buttonsPanel}>
+            <CardButton
+              text="Cancel"
+              position="left"
+              onClick={handleCancelBtn}
+            />
+            <CardButton text="Save" position="right" onClick={handleSaveBtn} />
+          </div>
+        </div>
       )}
     </>
   )
