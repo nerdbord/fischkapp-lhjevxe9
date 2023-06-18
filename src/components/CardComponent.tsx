@@ -1,13 +1,26 @@
 import { useState, useRef } from 'react'
 import { CardOneSite } from './CardOneSite'
 import css from './CardComponent.module.css'
+import { patchFlashCard } from '../utils/patch'
 
 interface CardComponentProps {
   front: string
   back: string
+  id: string
 }
-export const CardComponent = ({ front, back }: CardComponentProps) => {
+export const CardComponent = ({ front, back, id }: CardComponentProps) => {
   const [isFront, setIsFront] = useState(false)
+  const [frontText, setFrontText] = useState(front)
+  const [backText, setBackText] = useState(back)
+
+  const editFront = (value: string) => {
+    setFrontText(value)
+    patchFlashCard({ _id: id, front: value, back: backText })
+  }
+  const editBack = (value: string) => {
+    setBackText(value)
+    patchFlashCard({ _id: id, front: frontText, back: value })
+  }
   const refFront = useRef<HTMLDivElement | null>(null)
   const refBack = useRef<HTMLDivElement | null>(null)
 
@@ -45,10 +58,10 @@ export const CardComponent = ({ front, back }: CardComponentProps) => {
       className={`${css.card} ${isFront ? css.flipped : ''}`}
     >
       <div ref={refFront} className={css.front}>
-        <CardOneSite cardText={front} />
+        <CardOneSite cardText={frontText} saveEdit={editFront} />
       </div>
       <div className={`${css.back} ${css.hidden}`} ref={refBack}>
-        <CardOneSite cardText={back} />
+        <CardOneSite cardText={backText} saveEdit={editBack} />
       </div>
     </div>
   )
