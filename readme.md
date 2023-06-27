@@ -2,7 +2,7 @@
   Fischkapp 📄
 </h1>
 
-You can check out our website at: [GitHub Pages](https://nerdbord.github.io/fischkapp-lhjevxe9/)
+You can check out our app at: [GitHub Pages](https://nerdbord.github.io/fischkapp-lhjevxe9/)
 
 This project aims to create a simple app that supports learning.
 
