@@ -6,15 +6,10 @@ import { CardList } from './components/CardList'
 import { Loader } from './components/Loader'
 
 import { postFlashCard } from './utils/post'
+import { deleteFlashCard } from './utils/delete'
 import { fetchCardsData } from './utils/get'
 
 import { FlashCardI } from './types/types'
-
-// const mockList: FlashCardI[] = [
-//   { front: 'Jon Doe', back: 'Lorem ipsum', id: '1' },
-//   { front: 'Bigos', back: 'Dobry jest', id: '2' },
-//   { front: 'Serniczka', back: 'Zawsze zjem', id: ' 3' },
-// ]
 
 function App() {
   const [cardsData, setCardsList] = useState<FlashCardI[]>([])
@@ -49,10 +44,12 @@ function App() {
     ])
     setIsAddingNewCard(false)
   }
+
   const removeCard = (cardIdToRemove: string) => {
     setCardsList((prevArray) =>
       prevArray.filter((card) => card._id !== cardIdToRemove)
     )
+    deleteFlashCard(cardIdToRemove)
   }
 
   return (
