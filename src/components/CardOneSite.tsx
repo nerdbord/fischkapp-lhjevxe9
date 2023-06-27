@@ -10,9 +10,14 @@ import css from './CardOneSite.module.css'
 interface CardOneSiteProps {
   cardText: string
   saveEdit(value: string): void
+  handleDeleteBtn(): void
 }
 
-export const CardOneSite = ({ cardText, saveEdit }: CardOneSiteProps) => {
+export const CardOneSite = ({
+  cardText,
+  saveEdit,
+  handleDeleteBtn,
+}: CardOneSiteProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const inputRef = useRef('')
 
@@ -61,7 +66,9 @@ export const CardOneSite = ({ cardText, saveEdit }: CardOneSiteProps) => {
           className={`${css.defaultView} ${css.editView}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <button className={css.deleteButton}>{<Delete />}</button>
+          <button className={css.deleteButton} onClick={handleDeleteBtn}>
+            {<Delete />}
+          </button>
           <textarea
             ref={textareaRef}
             cols={20}

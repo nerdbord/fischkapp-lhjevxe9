@@ -7,8 +7,14 @@ interface CardComponentProps {
   front: string
   back: string
   id: string
+  handleDeleteBtn(cardIdToRemove: string): void
 }
-export const CardComponent = ({ front, back, id }: CardComponentProps) => {
+export const CardComponent = ({
+  front,
+  back,
+  id,
+  handleDeleteBtn,
+}: CardComponentProps) => {
   const [isFront, setIsFront] = useState(false)
   const [frontText, setFrontText] = useState(front)
   const [backText, setBackText] = useState(back)
@@ -21,6 +27,10 @@ export const CardComponent = ({ front, back, id }: CardComponentProps) => {
     setBackText(value)
     patchFlashCard({ _id: id, front: frontText, back: value })
   }
+  const removeCard = () => {
+    handleDeleteBtn(id)
+  }
+
   const refFront = useRef<HTMLDivElement | null>(null)
   const refBack = useRef<HTMLDivElement | null>(null)
 
@@ -58,10 +68,18 @@ export const CardComponent = ({ front, back, id }: CardComponentProps) => {
       className={`${css.card} ${isFront ? css.flipped : ''}`}
     >
       <div ref={refFront} className={css.front}>
-        <CardOneSite cardText={frontText} saveEdit={editFront} />
+        <CardOneSite
+          cardText={frontText}
+          saveEdit={editFront}
+          handleDeleteBtn={removeCard}
+        />
       </div>
       <div className={`${css.back} ${css.hidden}`} ref={refBack}>
-        <CardOneSite cardText={backText} saveEdit={editBack} />
+        <CardOneSite
+          cardText={backText}
+          saveEdit={editBack}
+          handleDeleteBtn={removeCard}
+        />
       </div>
     </div>
   )

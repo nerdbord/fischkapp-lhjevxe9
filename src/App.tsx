@@ -49,6 +49,11 @@ function App() {
     ])
     setIsAddingNewCard(false)
   }
+  const removeCard = (cardIdToRemove: string) => {
+    setCardsList((prevArray) =>
+      prevArray.filter((card) => card._id !== cardIdToRemove)
+    )
+  }
 
   return (
     <AppContainer>
@@ -64,7 +69,11 @@ function App() {
           handleSaveBtn={saveNewCard}
         />
       )}
-      {isLoading ? <Loader /> : <CardList cardsData={cardsData} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <CardList cardsData={cardsData} handleDeleteBtn={removeCard} />
+      )}
     </AppContainer>
   )
 }
