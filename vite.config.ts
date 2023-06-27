@@ -5,8 +5,4 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/fischkapp-lhjevxe9/',
-  root: './',
-  build: {
-    outDir: 'dist',
-  },
 })
