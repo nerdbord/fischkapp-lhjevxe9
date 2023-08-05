@@ -1,8 +1,11 @@
 import { FlashCardI } from '../types/types'
-import { API_ADDRESS } from './API_CONST'
+import { API_ADDRESS, headers } from './API_CONST'
 export const fetchCardsData = async (): Promise<FlashCardI[]> => {
   try {
-    const response = await fetch(API_ADDRESS)
+    const response = await fetch(API_ADDRESS, {
+      // method: 'GET',
+      headers: headers,
+    })
     if (!response.ok) {
       throw new Error('Błąd sieciowy - ' + response.status)
     }

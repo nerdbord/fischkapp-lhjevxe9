@@ -1,5 +1,5 @@
 import { FlashCardI } from '../types/types'
-import { API_ADDRESS } from './API_CONST'
+import { API_ADDRESS, headers } from './API_CONST'
 
 export const postFlashCard = async (data: {
   front: string
@@ -8,10 +8,7 @@ export const postFlashCard = async (data: {
   try {
     const response = await fetch(API_ADDRESS, {
       method: 'POST',
-      headers: {
-        Authorization: 'secret_token',
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
       body: JSON.stringify(data),
     })
     if (!response.ok) {
