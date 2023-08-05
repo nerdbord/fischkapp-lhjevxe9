@@ -1,11 +1,13 @@
 import { FlashCardI } from '../types/types'
-import { API_ADDRESS, headers } from './API_CONST'
+import { API_ADDRESS } from './API_CONST'
 
 export const deleteFlashCard = async (_id: string): Promise<FlashCardI> => {
   try {
     const response = await fetch(`${API_ADDRESS}${_id}`, {
       method: 'DELETE',
-      headers: headers,
+      headers: {
+        Authorization: 'secret_token',
+      },
     })
     if (!response.ok) {
       throw new Error('Failed to delete flashcard.')
