@@ -1,5 +1,5 @@
 import { FlashCardI } from '../types/types'
-import { API_ADDRESS, headers } from './API_CONST'
+import { API_ADDRESS } from './API_CONST'
 
 export const patchFlashCard = async ({
   _id,
@@ -9,7 +9,10 @@ export const patchFlashCard = async ({
   try {
     const response = await fetch(`${API_ADDRESS}${_id}`, {
       method: 'PATCH',
-      headers: headers,
+      headers: {
+        Authorization: 'secret_token',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ front, back }),
     })
     if (!response.ok) {
