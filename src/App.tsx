@@ -26,7 +26,7 @@ function App() {
       const data = await fetchCardsData()
       setCardsList(data)
     } catch (err) {
-      console.log(err)
+      console.log('error', err)
     } finally {
       setIsLoading(false)
     }
