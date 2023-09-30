@@ -33,23 +33,16 @@ function App() {
   }
 
   const saveNewCard = async (front: string, back: string) => {
-    const newCardData = await postFlashCard({ front, back })
-    setCardsList([
-      ...cardsData,
-      {
-        front: newCardData.front,
-        back: newCardData.back,
-        _id: newCardData._id,
-      },
-    ])
+    const newCard = await postFlashCard({ front, back })
+    setCardsList([newCard, ...cardsData])
     setIsAddingNewCard(false)
   }
 
-  const removeCard = (cardIdToRemove: string) => {
+  const removeCard = async (cardIdToRemove: string) => {
+    await deleteFlashCard(cardIdToRemove)
     setCardsList((prevArray) =>
       prevArray.filter((card) => card._id !== cardIdToRemove)
     )
-    deleteFlashCard(cardIdToRemove)
   }
 
   return (
