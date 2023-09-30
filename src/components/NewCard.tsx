@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 
 import { Delete } from './icons/Delete'
 import { CardButton } from './CardButton'
@@ -27,26 +27,41 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
   const handleBackBtn = () => {
     setIsFirstSite(true)
   }
-  const saveNewCard = () => {
+  const saveNewCard = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setIsLoading(true)
     handleSaveBtn(frontText, backText)
   }
 
   return (
-    <>
+    <form onSubmit={saveNewCard}>
       <div className={`${css.newCard} ${!isFirstSite ? css.hidden : ''}`}>
-        <p className={css.smallText}></p>
+        <label htmlFor="frontTextarea" className={css.smallText}>
+          {backText}
+        </label>
         <textarea
           cols={20}
           value={frontText}
+          id="frontTextarea"
+          name="frontTextarea"
           onInput={resizeTextArea}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setFrontText(e.target.value)
           }}
         />
         <div className={css.buttonsPanel}>
-          <CardButton text="Cancel" position="left" onClick={handleCancelBtn} />
-          <CardButton text="Next" position="right" onClick={handleNextBtn} />
+          <CardButton
+            text="Cancel"
+            position="left"
+            onClick={handleCancelBtn}
+            type="reset"
+          />
+          <CardButton
+            text="Next"
+            position="right"
+            onClick={handleNextBtn}
+            type="button"
+          />
         </div>
       </div>
 
@@ -56,24 +71,38 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
             <button className={css.deleteButton} onClick={handleCancelBtn}>
               <Delete />
             </button>
-            <p className={css.smallText}>{frontText}</p>
+            <label htmlFor="backTextarea" className={css.smallText}>
+              {frontText}
+            </label>
             <textarea
               cols={20}
               value={backText}
+              id="backTextarea"
+              name="backTextarea"
               onInput={resizeTextArea}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setBackText(e.target.value)
               }}
             />
             <div className={css.buttonsPanel}>
-              <CardButton text="Back" position="left" onClick={handleBackBtn} />
-              <CardButton text="Save" position="right" onClick={saveNewCard} />
+              <CardButton
+                text="Back"
+                position="left"
+                onClick={handleBackBtn}
+                type="button"
+              />
+              <CardButton
+                text="Save"
+                position="right"
+                onClick={() => null}
+                type="submit"
+              />
             </div>
           </>
         ) : (
           <Loader />
         )}
       </div>
-    </>
+    </form>
   )
 }
