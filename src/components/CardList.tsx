@@ -8,11 +8,9 @@ interface Cards {
 }
 
 export function CardList({ cardsData, handleDeleteBtn }: Cards) {
-  const clonedArray = [...cardsData]
-
   return (
     <ul className={styles['card-list']}>
-      {clonedArray.reverse().map((card) => (
+      {cardsData.map((card) => (
         <li key={card._id}>
           <CardComponent
             front={card.front}

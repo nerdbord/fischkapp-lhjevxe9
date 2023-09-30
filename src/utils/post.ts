@@ -9,29 +9,28 @@ export const postFlashCard = async (data: {
     const response = await fetch(API_ADDRESS, {
       method: 'POST',
       headers: {
-        Authorization: 'secret_token',
+        Authorization: 'pss-this-is-my-secret',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
     if (!response.ok) {
-      const response = await fetch(
-        'https://training.nerdbord.io/api/v1/fischkapp/flashcards',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: 'secret_token',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        }
-      )
+      const response = await fetch(API_ADDRESS, {
+        method: 'POST',
+        headers: {
+          Authorization: 'pss-this-is-my-secret',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
       if (!response.ok) {
         throw new Error('Wystąpił błąd sieciowy.')
       }
     }
     const responseData = await response.json()
-    return responseData.flashcard
+    console.log(responseData)
+
+    return responseData
   } catch (error) {
     console.error('Wystąpił błąd:', error)
     throw error

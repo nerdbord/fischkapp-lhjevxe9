@@ -10,7 +10,7 @@ export const patchFlashCard = async ({
     const response = await fetch(`${API_ADDRESS}${_id}`, {
       method: 'PATCH',
       headers: {
-        Authorization: 'secret_token',
+        Authorization: 'pss-this-is-my-secret',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ front, back }),
