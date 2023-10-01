@@ -44,6 +44,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
           value={frontText}
           id="frontTextarea"
           name="frontTextarea"
+          data-testid="frontTextarea"
           onInput={resizeTextArea}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setFrontText(e.target.value)
@@ -79,6 +80,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
               value={backText}
               id="backTextarea"
               name="backTextarea"
+              data-testid="backTextarea"
               onInput={resizeTextArea}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setBackText(e.target.value)
@@ -96,6 +98,7 @@ export const NewCard = ({ handleCancelBtn, handleSaveBtn }: NewCardProps) => {
                 position="right"
                 onClick={() => null}
                 type="submit"
+                isDisabled={!(!!backText && !!frontText)}
               />
             </div>
           </>
