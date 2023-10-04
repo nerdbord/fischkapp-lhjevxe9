@@ -29,9 +29,37 @@ describe('adding cards', () => {
     userEvent.click(saveButton)
     expect(postMock).not.toHaveBeenCalled()
   })
+
   it('It should not be possible to add a flashcard when front or back card value is empty', async () => {
-    null
+    const { getByRole, getByTestId } = render(
+      <NewCard
+        handleCancelBtn={() => {
+          null
+        }}
+        handleSaveBtn={postMock}
+      />
+    )
+    const saveButton = await getByRole('button', { name: /Save/ })
+    expect(saveButton).toBeDisabled()
+
+    const frontTextInput = getByTestId('frontTextarea')
+    const backTextInput = getByTestId('backTextarea')
+
+    const frontText = 'test front'
+    const backText = 'test back'
+
+    await userEvent.type(frontTextInput, frontText)
+    expect(saveButton).toBeDisabled()
+    await userEvent.click(saveButton)
+
+    await userEvent.clear(frontTextInput)
+    await userEvent.type(backTextInput, backText)
+    expect(saveButton).toBeDisabled()
+    await userEvent.click(saveButton)
+
+    expect(postMock).not.toHaveBeenCalled()
   })
+
   it('It should be possible to add a flashcard when front, and back values are present', async () => {
     const { getByRole, getByTestId } = render(
       <NewCard
