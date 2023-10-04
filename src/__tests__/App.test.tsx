@@ -6,7 +6,6 @@ import { fetchCardsData } from '../utils/get'
 import { FlashCardI } from '../types/types'
 
 jest.mock('../utils/get.ts')
-jest.mock('../utils/post.ts')
 
 const mockGetCardsService = fetchCardsData as jest.Mock
 
