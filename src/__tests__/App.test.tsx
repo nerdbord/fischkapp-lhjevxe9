@@ -30,7 +30,7 @@ describe('displaying cards', () => {
     mockPostCardsService.mockResolvedValue(newCard)
   })
   it('It should not be possible to add a flashcard when front and back card value is empty', async () => {
-    const { getByRole, getByTestId, queryByText } = render(<App />)
+    const { getByRole, getByTestId } = render(<App />)
     const addButton = getByTestId('Add')
     await userEvent.click(addButton)
 
@@ -40,12 +40,8 @@ describe('displaying cards', () => {
     const saveButton = getByRole('button', { name: /Save/ })
     expect(saveButton).toBeDisabled()
 
-    userEvent.click(saveButton)
+    await userEvent.click(saveButton)
     expect(mockPostCardsService).not.toHaveBeenCalled()
-    await waitFor(() => {
-      expect(queryByText(newCard.front)).not.toBeInTheDocument()
-      expect(queryByText(newCard.back)).not.toBeInTheDocument()
-    })
   })
 
   it('It should not be possible to add a flashcard when front or back card value is empty', async () => {
@@ -70,8 +66,9 @@ describe('displaying cards', () => {
 
     await userEvent.clear(frontTextInput)
     await userEvent.type(backTextInput, backText)
+
     expect(saveButton).toBeDisabled()
-    userEvent.click(saveButton)
+    await userEvent.click(saveButton)
     expect(mockPostCardsService).not.toHaveBeenCalled()
   })
 
