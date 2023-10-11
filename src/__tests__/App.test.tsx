@@ -1,14 +1,16 @@
 import '@testing-library/jest-dom'
+import '@testing-library/react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../App'
-
 import { fetchCardsData } from '../utils/get'
 import { postFlashCard } from '../utils/post'
+import { deleteFlashCard } from '../utils/delete'
 import { FlashCardI } from '../types/types'
 
 jest.mock('../utils/get.ts')
 jest.mock('../utils/post.ts')
+jest.mock('../utils/delete.ts')
 
 const startCards: FlashCardI[] = [
   { front: 'front_testing1', back: 'back_tesing1', _id: '0000' },
@@ -22,6 +24,7 @@ const newCard: FlashCardI = {
 
 const mockGetCardsService = fetchCardsData as jest.Mock
 const mockPostCardsService = postFlashCard as jest.Mock<Promise<FlashCardI>>
+const mockDeleteCardsService = deleteFlashCard as jest.Mock
 
 describe('displaying cards', () => {
   beforeEach(() => {
@@ -93,9 +96,35 @@ describe('displaying cards', () => {
     await userEvent.click(saveButton)
     expect(mockPostCardsService).toHaveBeenCalled()
     await waitFor(() => {
-      expect(getByText(newCard.front)).toBeInTheDocument
-      expect(getByText(newCard.back)).toBeInTheDocument
+      expect(getByText(newCard.front)).toBeInTheDocument()
+      expect(getByText(newCard.back)).toBeInTheDocument()
     })
+  })
+
+  it('It should delete flashcard from the list when clicking on Trash icon', async () => {
+    mockDeleteCardsService.mockResolvedValue(startCards[0])
+    const { getByText, getByTestId, queryByText } = render(<App />)
+
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = cardElement?.querySelector('button') as HTMLElement
+    expect(editButton).toBeInTheDocument()
+
+    userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByTestId('delete')).toBeInTheDocument()
+    })
+    const deleteButton = getByTestId('delete')
+    userEvent.click(deleteButton)
+
+    await waitFor(() => {
+      expect(queryByText(startCards[0].back)).not.toBeInTheDocument()
+    })
+    expect(getByText(startCards[1].front)).toBeInTheDocument()
   })
 
   it('should displaying cards', async () => {
@@ -103,10 +132,10 @@ describe('displaying cards', () => {
 
     await waitFor(() => {
       expect(getAllByText(startCards[0].front).length).toBe(1)
-      expect(getByText(startCards[0].front)).toBeInTheDocument
-      expect(getByText(startCards[0].back)).toBeInTheDocument
-      expect(getByText(startCards[1].front)).toBeInTheDocument
-      expect(getByText(startCards[1].back)).toBeInTheDocument
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+      expect(getByText(startCards[0].back)).toBeInTheDocument()
+      expect(getByText(startCards[1].front)).toBeInTheDocument()
+      expect(getByText(startCards[1].back)).toBeInTheDocument()
     })
   })
 })
