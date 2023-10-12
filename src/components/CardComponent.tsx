@@ -66,6 +66,7 @@ export const CardComponent = ({
     <div
       onClick={handleFlip}
       className={`${css.card} ${isFront ? css.flipped : ''}`}
+      data-testid="card"
     >
       <div ref={refFront} className={css.front}>
         <CardOneSite

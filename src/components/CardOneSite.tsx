@@ -66,7 +66,11 @@ export const CardOneSite = ({
           className={`${css.defaultView} ${css.editView}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <button className={css.deleteButton} onClick={handleDeleteBtn}>
+          <button
+            className={css.deleteButton}
+            onClick={handleDeleteBtn}
+            data-testid="delete"
+          >
             {<Delete />}
           </button>
           <textarea
