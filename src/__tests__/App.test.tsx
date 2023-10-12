@@ -27,6 +27,10 @@ const mockPostCardsService = postFlashCard as jest.Mock<Promise<FlashCardI>>
 const mockDeleteCardsService = deleteFlashCard as jest.Mock
 
 describe('displaying cards', () => {
+  beforeAll(() => {
+    //@ts-ignore
+    global.IS_REACT_ACT_ENVIRONMENT = false
+  })
   beforeEach(() => {
     jest.resetAllMocks()
     mockGetCardsService.mockResolvedValue(startCards)
@@ -103,7 +107,9 @@ describe('displaying cards', () => {
 
   it('It should delete flashcard from the list when clicking on Trash icon', async () => {
     mockDeleteCardsService.mockResolvedValue(startCards[0])
-    const { getByText, getByTestId, queryByText } = render(<App />)
+    const { getByText, getByTestId, queryByText, getAllByTestId } = render(
+      <App />
+    )
 
     await waitFor(() => {
       expect(getByText(startCards[0].front)).toBeInTheDocument()
@@ -124,7 +130,8 @@ describe('displaying cards', () => {
     await waitFor(() => {
       expect(queryByText(startCards[0].back)).not.toBeInTheDocument()
     })
-    expect(getByText(startCards[1].front)).toBeInTheDocument()
+    const cardElements = getAllByTestId('card')
+    expect(cardElements).toHaveLength(startCards.length - 1)
   })
 
   it('should displaying cards', async () => {
