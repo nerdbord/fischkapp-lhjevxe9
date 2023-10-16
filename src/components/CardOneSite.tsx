@@ -19,6 +19,7 @@ export const CardOneSite = ({
   handleDeleteBtn,
 }: CardOneSiteProps) => {
   const [isEditing, setIsEditing] = useState(false)
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false)
   const inputRef = useRef('')
 
   const handleSaveBtn = () => {
@@ -34,6 +35,7 @@ export const CardOneSite = ({
     if (e.target) {
       inputRef.current = e.target.value
     }
+    setIsBtnDisabled(!textareaRef.current?.value.trim())
   }
   const handlePencilBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEditing(true)
@@ -55,7 +57,11 @@ export const CardOneSite = ({
       {!isEditing ? (
         <>
           <div className={css.defaultView}>
-            <button className={css.editButton} onClick={handlePencilBtn}>
+            <button
+              className={css.editButton}
+              onClick={handlePencilBtn}
+              aria-label="Edit Card Button"
+            >
               {<Pencil />}
             </button>
             <h2>{cardText}</h2>
@@ -86,7 +92,12 @@ export const CardOneSite = ({
               position="left"
               onClick={handleCancelBtn}
             />
-            <CardButton text="Save" position="right" onClick={handleSaveBtn} />
+            <CardButton
+              text="Save"
+              position="right"
+              onClick={handleSaveBtn}
+              isDisabled={isBtnDisabled}
+            />
           </div>
         </div>
       )}

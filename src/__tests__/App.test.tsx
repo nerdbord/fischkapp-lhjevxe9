@@ -2,6 +2,8 @@ import '@testing-library/jest-dom'
 import '@testing-library/react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { within, screen } from '@testing-library/dom'
+
 import App from '../App'
 import { fetchCardsData } from '../utils/get'
 import { postFlashCard } from '../utils/post'
@@ -13,8 +15,9 @@ jest.mock('../utils/post.ts')
 jest.mock('../utils/delete.ts')
 
 const startCards: FlashCardI[] = [
-  { front: 'front_testing1', back: 'back_tesing1', _id: '0000' },
-  { front: 'front_testing2', back: 'back_tesing2', _id: '1111' },
+  { front: 'front_testing0', back: 'back_tesing0', _id: '0000' },
+  { front: 'front_testing1', back: 'back_tesing1', _id: '1111' },
+  { front: 'front_testing2', back: 'back_tesing2', _id: '2222' },
 ]
 const newCard: FlashCardI = {
   front: 'newCardFront',
@@ -26,11 +29,12 @@ const mockGetCardsService = fetchCardsData as jest.Mock
 const mockPostCardsService = postFlashCard as jest.Mock<Promise<FlashCardI>>
 const mockDeleteCardsService = deleteFlashCard as jest.Mock
 
+beforeAll(() => {
+  //@ts-ignore
+  global.IS_REACT_ACT_ENVIRONMENT = false
+})
+
 describe('displaying cards', () => {
-  beforeAll(() => {
-    //@ts-ignore
-    global.IS_REACT_ACT_ENVIRONMENT = false
-  })
   beforeEach(() => {
     jest.resetAllMocks()
     mockGetCardsService.mockResolvedValue(startCards)
@@ -104,7 +108,43 @@ describe('displaying cards', () => {
       expect(getByText(newCard.back)).toBeInTheDocument()
     })
   })
+  //
+  //
+  //
+  //
+  //
+  ///
+  //
+  it('It should not be possible to edit a flashcard by clicking Save button when edited value is empty', async () => {
+    mockDeleteCardsService.mockResolvedValue(startCards[0])
+    const { getByText, getByRole } = render(<App />)
 
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = within(cardElement).getByLabelText('Edit Card Button')
+
+    await userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
+    })
+    screen.debug(cardElement)
+    const textInput = getByRole('textbox')
+    const saveButton = getByRole('button', { name: /save/i })
+    expect(textInput).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
+    await userEvent.clear(textInput)
+    expect(saveButton).toBeDisabled()
+  })
+  //
+  //
+  //
+  //
+  ///
+  //
   it('It should delete flashcard from the list when clicking on Trash icon', async () => {
     mockDeleteCardsService.mockResolvedValue(startCards[0])
     const { getByText, getByTestId, queryByText, getAllByTestId } = render(
