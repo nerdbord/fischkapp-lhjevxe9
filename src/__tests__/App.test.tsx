@@ -2,19 +2,24 @@ import '@testing-library/jest-dom'
 import '@testing-library/react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { within } from '@testing-library/dom'
+
 import App from '../App'
 import { fetchCardsData } from '../utils/get'
 import { postFlashCard } from '../utils/post'
 import { deleteFlashCard } from '../utils/delete'
+
 import { FlashCardI } from '../types/types'
 
 jest.mock('../utils/get.ts')
 jest.mock('../utils/post.ts')
 jest.mock('../utils/delete.ts')
+jest.mock('../utils/patch.ts')
 
 const startCards: FlashCardI[] = [
-  { front: 'front_testing1', back: 'back_tesing1', _id: '0000' },
-  { front: 'front_testing2', back: 'back_tesing2', _id: '1111' },
+  { front: 'front_testing0', back: 'back_tesing0', _id: '0000' },
+  { front: 'front_testing1', back: 'back_tesing1', _id: '1111' },
+  { front: 'front_testing2', back: 'back_tesing2', _id: '2222' },
 ]
 const newCard: FlashCardI = {
   front: 'newCardFront',
@@ -26,11 +31,12 @@ const mockGetCardsService = fetchCardsData as jest.Mock
 const mockPostCardsService = postFlashCard as jest.Mock<Promise<FlashCardI>>
 const mockDeleteCardsService = deleteFlashCard as jest.Mock
 
+beforeAll(() => {
+  //@ts-ignore
+  global.IS_REACT_ACT_ENVIRONMENT = false
+})
+
 describe('displaying cards', () => {
-  beforeAll(() => {
-    //@ts-ignore
-    global.IS_REACT_ACT_ENVIRONMENT = false
-  })
   beforeEach(() => {
     jest.resetAllMocks()
     mockGetCardsService.mockResolvedValue(startCards)
@@ -103,6 +109,94 @@ describe('displaying cards', () => {
       expect(getByText(newCard.front)).toBeInTheDocument()
       expect(getByText(newCard.back)).toBeInTheDocument()
     })
+  })
+
+  it('It should not be possible to edit a flashcard by clicking Save button when edited value is empty', async () => {
+    const { getByText, getByRole } = render(<App />)
+
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = within(cardElement).getByLabelText('Edit Card Button')
+
+    await userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
+    })
+    const textInput = getByRole('textbox')
+    const saveButton = getByRole('button', { name: /save/i })
+
+    expect(textInput).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
+    await userEvent.clear(textInput)
+    expect(saveButton).toBeDisabled()
+  })
+
+  it('It should be possible to edit a flashcard by clicking Save button when edited value is not empty', async () => {
+    const newText = 'Edited Card'
+    const { getByText, getByRole, queryByText } = render(<App />)
+
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = within(cardElement).getByLabelText('Edit Card Button')
+
+    await userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
+    })
+    const textInput = getByRole('textbox')
+    const saveButton = getByRole('button', { name: /save/i })
+    expect(textInput).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
+
+    await userEvent.clear(textInput)
+    await userEvent.type(textInput, newText)
+    expect(saveButton).not.toBeDisabled()
+    await userEvent.click(saveButton)
+
+    waitFor(() => {
+      expect(saveButton).not.toBeInTheDocument()
+    })
+    expect(queryByText(startCards[0].front)).not.toBeInTheDocument()
+    expect(getByText(newText)).toBeInTheDocument()
+  })
+
+  it('It should be possible to exit editing mode by clicking cancel button', async () => {
+    const newText = 'Edited Card'
+    const { getByText, getByRole, queryByText } = render(<App />)
+
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = within(cardElement).getByLabelText('Edit Card Button')
+
+    await userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
+    })
+    const textInput = getByRole('textbox')
+    const cancelButton = getByRole('button', { name: /cancel/i })
+    expect(textInput).toBeInTheDocument()
+
+    await userEvent.clear(textInput)
+    await userEvent.type(textInput, newText)
+    await userEvent.click(cancelButton)
+
+    waitFor(() => {
+      expect(cancelButton).not.toBeInTheDocument()
+    })
+    expect(queryByText(newText)).not.toBeInTheDocument()
+    expect(getByText(startCards[0].front)).toBeInTheDocument()
   })
 
   it('It should delete flashcard from the list when clicking on Trash icon', async () => {
