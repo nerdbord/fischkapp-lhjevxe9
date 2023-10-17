@@ -8,11 +8,13 @@ import App from '../App'
 import { fetchCardsData } from '../utils/get'
 import { postFlashCard } from '../utils/post'
 import { deleteFlashCard } from '../utils/delete'
+// import { patchFlashCard } from '../utils/patch'
 import { FlashCardI } from '../types/types'
 
 jest.mock('../utils/get.ts')
 jest.mock('../utils/post.ts')
 jest.mock('../utils/delete.ts')
+jest.mock('../utils/patch.ts')
 
 const startCards: FlashCardI[] = [
   { front: 'front_testing0', back: 'back_tesing0', _id: '0000' },
@@ -28,7 +30,7 @@ const newCard: FlashCardI = {
 const mockGetCardsService = fetchCardsData as jest.Mock
 const mockPostCardsService = postFlashCard as jest.Mock<Promise<FlashCardI>>
 const mockDeleteCardsService = deleteFlashCard as jest.Mock
-
+// const mockPatchCardsService = patchFlashCard as jest.Mock
 beforeAll(() => {
   //@ts-ignore
   global.IS_REACT_ACT_ENVIRONMENT = false
@@ -108,15 +110,8 @@ describe('displaying cards', () => {
       expect(getByText(newCard.back)).toBeInTheDocument()
     })
   })
-  //
-  //
-  //
-  //
-  //
-  ///
-  //
+
   it('It should not be possible to edit a flashcard by clicking Save button when edited value is empty', async () => {
-    mockDeleteCardsService.mockResolvedValue(startCards[0])
     const { getByText, getByRole } = render(<App />)
 
     await waitFor(() => {
@@ -131,13 +126,52 @@ describe('displaying cards', () => {
     await waitFor(() => {
       expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
     })
-    screen.debug(cardElement)
     const textInput = getByRole('textbox')
     const saveButton = getByRole('button', { name: /save/i })
+
     expect(textInput).toBeInTheDocument()
     expect(saveButton).not.toBeDisabled()
     await userEvent.clear(textInput)
     expect(saveButton).toBeDisabled()
+  })
+  //
+  //
+  //
+  //
+  //
+  ///
+  //
+  it('It should be possible to edit a flashcard by clicking Save button when edited value is not empty', async () => {
+    const newText = 'Edited Card'
+    const { getByText, getByRole, queryByText } = render(<App />)
+
+    await waitFor(() => {
+      expect(getByText(startCards[0].front)).toBeInTheDocument()
+    })
+    const cardHeader = getByText(startCards[0].front)
+    const cardElement = cardHeader.parentElement as HTMLElement
+    expect(cardElement).toBeInTheDocument()
+    const editButton = within(cardElement).getByLabelText('Edit Card Button')
+
+    await userEvent.click(editButton)
+    await waitFor(() => {
+      expect(getByRole('button', { name: /save/i })).toBeInTheDocument()
+    })
+    const textInput = getByRole('textbox')
+    const saveButton = getByRole('button', { name: /save/i })
+    expect(textInput).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
+    
+    await userEvent.clear(textInput)
+    await userEvent.type(textInput, newText)
+    expect(saveButton).not.toBeDisabled()
+    await userEvent.click(saveButton)
+
+    waitFor(() => {
+      expect(saveButton).not.toBeInTheDocument()
+    })
+    expect(queryByText(startCards[0].front)).not.toBeInTheDocument()
+    expect(getByText(newText)).toBeInTheDocument()
   })
   //
   //
